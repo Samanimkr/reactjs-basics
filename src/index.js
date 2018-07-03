@@ -1,53 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
+import React from  "react";
+import { render } from "react-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import {Header} from "./components/Header";
-import {Home} from "./components/Home";
-import './index.css';
+import { Root } from "./components/Root";
+import { Home } from "./components/Home";
+import { User } from "./components/User";
 
 class App extends React.Component {
-  constructor(){
-    super();
-    this.state = {
-      homeLink: "Home"
-    }
-  }
-
-  onGreet(){
-    alert("Hello!");
-  }
-
-  onChangeLinkName(newName){
-    this.setState({
-      homeLink: newName
-    });
-  }
-
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-xs-10 col-xs-offset-1">
-            <Header homeLink={this.state.homeLink}/>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-xs-10 col-xs-offset-1">
-            <Home
-              name={"Sammy"}
-              initialAge={18}
-              greet={this.onGreet}
-              changeLink={this.onChangeLinkName.bind(this)}
-              initialName={this.state.homeLink}
-            />
-          </div>
-        </div>
-      </div>
-    );
+      <Router>
+          <Root>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/user/:id" component={User} />
+            </Switch>
+          </Root>
+      </Router>
+    )
   }
 }
 
-
-ReactDOM.render(<App />, document.getElementById('root'));
+render(<App />, document.getElementById('root'));
 registerServiceWorker();
